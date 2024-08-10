@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
@@ -43,8 +43,7 @@ for search_term in df['Name']:  # Replace 'search_column' with your CSV column n
         
         # Find the optgroup with label '2023/2024'
         optgroup = select_element.find_element(By.XPATH, ".//optgroup[@label='2023/2024']")
-
-        option = optgroup.find_element(By.XPATH, ".//option[@text()='Premier League']")
+        option = WebDriverWait(optgroup, 5).until(EC.presence_of_element_located((By.XPATH, ".//option[text()='Premier League']")))
         option.click()
         print(f"Successfully selected the '{option.text}' option.")
 
