@@ -23,8 +23,7 @@ wait = WebDriverWait(driver, 35)
 
 for search_term in df['Name']:
     try:
-       
-            
+             
         # Refresh the page to ensure a clean state
         driver.refresh()
         time.sleep(5)  # Give time for the page to reload
@@ -72,11 +71,26 @@ for search_term in df['Name']:
 
         imp_div = plain_div.find('div') if outer_main else None  # Adjust this if nested <main> exists
 
-        main_div = imp_div.find('div', class_="css-1gp959r-SeasonSelectCSS e105sp8f0") if outer_main else None  # Adjust this if nested <main> exists
+        minutes_div = imp_div.find('div', 'css-15lw8xy-SeasonPerformanceCSS e1uibvo19')
 
-        season_select = main_div.find('div') if outer_main else None  # Adjust this if nested <main> exists
+        SeasonPerformanceHeader = minutes_div.find('div', 'css-1f7ec8g-SeasonPerformanceHeader e1uibvo112')
 
-        if season_select:
-            select_tag = season_select.find('select') # Stores the select tag that has the dropdown to select different seasons
+        header = SeasonPerformanceHeader.find('h2', 'css-1gt9w1g-SeasonPerformanceTitle e1uibvo110')
+
+        # Find the index of the colon
+        colon_index = header.text.find(':')
+
+        # Extract the substring that comes after the colon and strip any whitespace
+        formatted_text = header.text[colon_index + 1:].strip()
+        
+        print('Minutes played: ',formatted_text)
+
+
+     #   main_div = imp_div.find('div', class_="css-1gp959r-SeasonSelectCSS e105sp8f0") if outer_main else None  # Adjust this if nested <main> exists
+
+      #  season_select = main_div.find('div') if outer_main else None  # Adjust this if nested <main> exists
+
+      #  if season_select:
+       #     select_tag = season_select.find('select') # Stores the select tag that has the dropdown to select different seasons
     except Exception as e:
         print(f"Error encountered: {str(e)}")
