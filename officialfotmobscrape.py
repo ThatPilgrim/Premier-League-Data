@@ -15,10 +15,14 @@ import pandas as pd
 from selenium.webdriver.common.action_chains import ActionChains
 
 
+
 # Set up Selenium WebDriver
 options = webdriver.ChromeOptions()
 options.add_argument('--ignore-certificate-errors')
 driver = webdriver.Chrome(options=options)
+
+csv_file = 'SofaScoreResults23-24.csv'
+df = pd.read_csv(csv_file)
 
 # URL of the webpage with the search bar
 url = 'https://www.fotmob.com/'
@@ -144,7 +148,7 @@ def NormalExecution(select_tag):
 
 search_tems = ['Erling Haaland','Cole Palmer', 'Alexander Isak', 'Phil Foden']
 search_terms = ['Cole Palmer']
-for search_term in search_terms:
+for search_term in df['Name']:
     try:
        
             
@@ -216,92 +220,92 @@ for search_term in search_terms:
 
      
 ################################################################################################################################################################
-# # FIND THE SHOT MAP ACCURACY
-#         ShotMapContainerCount = 0
-#         ShotMap18YCount =0
-#         ShotMap18Y2Count =0
-#         ShotMap18Y3Count =0
-#         ShotMap18Y4Count =0
-#         ShotMap18Y5Count = 0
+# FIND THE SHOT MAP ACCURACY
+        ShotMapContainerCount = 0
+        ShotMap18YCount =0
+        ShotMap18Y2Count =0
+        ShotMap18Y3Count =0
+        ShotMap18Y4Count =0
+        ShotMap18Y5Count = 0
     
-#         main_div = driver.find_element(By.CLASS_NAME, "css-1gp959r-SeasonSelectCSS.e105sp8f0")
+        the_main_div = driver.find_element(By.CLASS_NAME, "css-1gp959r-SeasonSelectCSS.e105sp8f0")
 
-# # Replace find_next_sibling with Selenium's find_element using XPath to locate the sibling div
-#         ShotMapContainer = main_div.find_element(By.XPATH, "./following-sibling::div")
+# Replace find_next_sibling with Selenium's find_element using XPath to locate the sibling div
+        ShotMapContainer = the_main_div.find_element(By.XPATH, "./following-sibling::div")
 
-# # Handling potential stale element error
-#         try:
-#     # Locate ShotMap18YBox inside ShotMapContainer
-#             ShotMap18YBox = ShotMapContainer.find_element(By.CLASS_NAME, 'css-104gxio-ShotmapContainer.eaj680o0')
-#         except StaleElementReferenceException:
-#         # If a stale element error occurs, relocate ShotMapContainer and try again
-#             ShotMapContainer = driver.find_element(By.XPATH, "./following-sibling::div")
-#             ShotMap18YBox = ShotMapContainer.find_element(By.CLASS_NAME, 'css-104gxio-ShotmapContainer.eaj680o0')
+# Handling potential stale element error
+        try:
+    # Locate ShotMap18YBox inside ShotMapContainer
+            ShotMap18YBox = ShotMapContainer.find_element(By.CLASS_NAME, 'css-104gxio-ShotmapContainer.eaj680o0')
+        except StaleElementReferenceException:
+        # If a stale element error occurs, relocate ShotMapContainer and try again
+            ShotMapContainer = driver.find_element(By.XPATH, "./following-sibling::div")
+            ShotMap18YBox = ShotMapContainer.find_element(By.CLASS_NAME, 'css-104gxio-ShotmapContainer.eaj680o0')
 
-# # Now proceed to find the other elements inside ShotMap18YBox using Selenium's methods
-#         ShotMap18YBox2 = ShotMap18YBox.find_element(By.CLASS_NAME, 'css-2di36g-ShotmapAndStats.eaj680o4')
-#         ShotMap18YBox3 = ShotMap18YBox2.find_element(By.CLASS_NAME, 'css-mxhuja-ShotmapTitleAndMap.eaj680o2')
-#         ShotMap18YBox4 = ShotMap18YBox3.find_element(By.CLASS_NAME, 'css-15db3qs-TitleAndToggle.eaj680o5')
-#         ShotMap18YBox5 = ShotMap18YBox4.find_element(By.CLASS_NAME, 'css-169g342-ShotmapTitle.eaj680o3')
+# Now proceed to find the other elements inside ShotMap18YBox using Selenium's methods
+        ShotMap18YBox2 = ShotMap18YBox.find_element(By.CLASS_NAME, 'css-2di36g-ShotmapAndStats.eaj680o4')
+        ShotMap18YBox3 = ShotMap18YBox2.find_element(By.CLASS_NAME, 'css-mxhuja-ShotmapTitleAndMap.eaj680o2')
+        ShotMap18YBox4 = ShotMap18YBox3.find_element(By.CLASS_NAME, 'css-15db3qs-TitleAndToggle.eaj680o5')
+        ShotMap18YBox5 = ShotMap18YBox4.find_element(By.CLASS_NAME, 'css-169g342-ShotmapTitle.eaj680o3')
 
-# # Locate the last child (span) within ShotMap18YBox5
-#         try:
-#             children = ShotMap18YBox5.find_elements(By.XPATH, './*')
-#             Span = children[-1] if children else None
+# Locate the last child (span) within ShotMap18YBox5
+        try:
+            children = ShotMap18YBox5.find_elements(By.XPATH, './*')
+            Span = children[-1] if children else None
     
-#             if Span is not None:
-#                 span_text = Span.text
-#                 if ':' in span_text:
-#                     number_after_colon = span_text.split(':')[1].strip()  # Extract and trim the number
-#                     print('Number after colon:', number_after_colon)
-#             #else:
-#                 # Attempt to locate using another method
-#              #   Span = ShotMap18YBox5.find_elements(By.XPATH, './*')[-1]
-#               #  print('2This is the span:', Span)
+            if Span is not None:
+                span_text = Span.text
+                if ':' in span_text:
+                    number_after_colon = span_text.split(':')[1].strip()  # Extract and trim the number
+                    print('Number after colon:', number_after_colon)
+            #else:
+                # Attempt to locate using another method
+             #   Span = ShotMap18YBox5.find_elements(By.XPATH, './*')[-1]
+              #  print('2This is the span:', Span)
 
-#         except IndexError:
-#             print("No children found in ShotMap18YBox5.")
+        except IndexError:
+            print("No children found in ShotMap18YBox5.")
 
-#         # Increment counts if any are missing
-#         ShotMapContainerCount += 1 if ShotMapContainer is None else 0
-#         ShotMap18YCount += 1 if ShotMap18YBox is None else 0
-#         ShotMap18Y2Count += 1 if ShotMap18YBox2 is None else 0
-#         ShotMap18Y3Count += 1 if ShotMap18YBox3 is None else 0
-#         ShotMap18Y4Count += 1 if ShotMap18YBox4 is None else 0
-#         ShotMap18Y5Count += 1 if ShotMap18YBox5 is None else 0
+        # Increment counts if any are missing
+        ShotMapContainerCount += 1 if ShotMapContainer is None else 0
+        ShotMap18YCount += 1 if ShotMap18YBox is None else 0
+        ShotMap18Y2Count += 1 if ShotMap18YBox2 is None else 0
+        ShotMap18Y3Count += 1 if ShotMap18YBox3 is None else 0
+        ShotMap18Y4Count += 1 if ShotMap18YBox4 is None else 0
+        ShotMap18Y5Count += 1 if ShotMap18YBox5 is None else 0
 
-#         # Print results for debugging
-#         print(f"{search_term} - ShotMapContainer missing: {ShotMapContainerCount}")
-#         print(f"{search_term} - ShotMap18YBox missing: {ShotMap18YCount}")
-#         print(f"{search_term} - ShotMap18YBox2 missing: {ShotMap18Y2Count}")
-#         print(f"{search_term} - ShotMap18YBox3 missing: {ShotMap18Y3Count}")
-#         print(f"{search_term} - ShotMap18YBox4 missing: {ShotMap18Y4Count}")
-#         print(f"{search_term} - ShotMap18YBox5 missing: {ShotMap18Y5Count}")
+        # Print results for debugging
+        print(f"{search_term} - ShotMapContainer missing: {ShotMapContainerCount}")
+        print(f"{search_term} - ShotMap18YBox missing: {ShotMap18YCount}")
+        print(f"{search_term} - ShotMap18YBox2 missing: {ShotMap18Y2Count}")
+        print(f"{search_term} - ShotMap18YBox3 missing: {ShotMap18Y3Count}")
+        print(f"{search_term} - ShotMap18YBox4 missing: {ShotMap18Y4Count}")
+        print(f"{search_term} - ShotMap18YBox5 missing: {ShotMap18Y5Count}")
 
     
 
-# ################################################################################################################################################################
-# # FIND THE SHOT'S IN BOX ETC (4 - 6)
+################################################################################################################################################################
+# FIND THE SHOT'S IN BOX ETC (4 - 6)
 
-#         ShotMapPostandFilter = ShotMap18YBox.find_element(By.CLASS_NAME, 'css-158vgtt-ShotInformationWrapper.eaj680o1')
-#         ShotMapFilter = ShotMapPostandFilter.find_element(By.CLASS_NAME, 'css-yd9zf5-ShotFilters.e33hihm1')
-#         ShotMapFilterContainer = ShotMapFilter.find_element(By.CLASS_NAME, 'css-527u5l-ShotFiltersContainer.e33hihm0')
+        ShotMapPostandFilter = ShotMap18YBox.find_element(By.CLASS_NAME, 'css-158vgtt-ShotInformationWrapper.eaj680o1')
+        ShotMapFilter = ShotMapPostandFilter.find_element(By.CLASS_NAME, 'css-yd9zf5-ShotFilters.e33hihm1')
+        ShotMapFilterContainer = ShotMapFilter.find_element(By.CLASS_NAME, 'css-527u5l-ShotFiltersContainer.e33hihm0')
 
-#         # Find all buttons inside the ShotMapFilterContainer
-#         buttons = ShotMapFilterContainer.find_elements(By.CLASS_NAME, 'css-5ig26z-ShotFilterButton.e33hihm2')
+        # Find all buttons inside the ShotMapFilterContainer
+        buttons = ShotMapFilterContainer.find_elements(By.CLASS_NAME, 'css-5ig26z-ShotFilterButton.e33hihm2')
 
-#         # Define the statistics you are interested in
-#         target_statistics = ["Regular play", "Shots inside box", "Shots outside box", "Penalty"]
+        # Define the statistics you are interested in
+        target_statistics = ["Regular play", "Shots inside box", "Shots outside box", "Penalty"]
 
-#         for button in buttons:
-#             spans = button.find_elements(By.TAG_NAME, 'span')
+        for button in buttons:
+            spans = button.find_elements(By.TAG_NAME, 'span')
     
-#             if len(spans) == 2:
-#                 stat_name = spans[0].text
-#                 stat_number = spans[1].text
+            if len(spans) == 2:
+                stat_name = spans[0].text
+                stat_number = spans[1].text
         
-#                 if stat_name in target_statistics:
-#                     print(f"{stat_name}: {stat_number} for {search_term}")
+                if stat_name in target_statistics:
+                    print(f"{stat_name}: {stat_number} for {search_term}")
 
 
 ################################################################################################################################################################
@@ -323,23 +327,23 @@ for search_term in search_terms:
                     divs = Empty_div.find_all("div")
 
                    # Assume `divs` is a list of WebElement or Tag objects
-                    for div in divs:
-                        try:
-                            # For Selenium WebElement
-                            if isinstance(div, WebElement):
-                                div_class = div.get_attribute('class')
-                                print(f"Div class: {div_class}")
+                    # for div in divs:
+                    #     try:
+                    #         # For Selenium WebElement
+                    #         if isinstance(div, WebElement):
+                    #             div_class = div.get_attribute('class')
+                    #             print(f"Div class: {div_class}")
 
-                            # For BeautifulSoup Tag
-                            elif isinstance(div, Tag):
-                                div_class = div.get("class")
-                                print(f"Div class: {div_class}")
+                    #         # For BeautifulSoup Tag
+                    #         elif isinstance(div, Tag):
+                    #             div_class = div.get("class")
+                    #             print(f"Div class: {div_class}")
 
-                        except AttributeError as e:
-                            print(f"AttributeError occurred: {e}")
+                    #     except AttributeError as e:
+                    #         print(f"AttributeError occurred: {e}")
 
-                        except Exception as e:
-                            print(f"An unexpected error occurred: {e}")
+                    #     except Exception as e:
+                    #         print(f"An unexpected error occurred: {e}")
 
                 except Exception as e:
                     print(f"An error occurred: {e}")
